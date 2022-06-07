@@ -11,19 +11,19 @@ export function SuggestedPop({
   name: string;
   setName: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const usedIds = useRef<string[]>([]);
+  const usedNames = useRef<string[]>([]);
 
   const suggestedActivities = useMemo(() => {
-    usedIds.current = [];
+    usedNames.current = [];
     return activities.map((activity) => {
       if (
         name.length !== 0 &&
         activity.name !== name &&
-        !usedIds.current.includes(activity.id) &&
+        !usedNames.current.includes(activity.name) &&
         (activity.name.includes(name) || similarity(activity.name, name)) >=
           0.85
       ) {
-        usedIds.current = [...usedIds.current, activity.id];
+        usedNames.current = [...usedNames.current, activity.name];
         return (
           <div key={activity.id} onClick={() => setName(activity.name)}>
             {activity.name} <button>^</button>
