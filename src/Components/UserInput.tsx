@@ -5,27 +5,48 @@ import { v4 as uuid } from "uuid";
 import { familyMemberCount } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
 
+const pad = "15px";
 const InputContainer = styled.div<{ toolboxWidth: number }>`
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: ${pad};
+  left: ${pad};
+  right: ${pad};
   max-width: 500px;
-  margin: 0 auto;
   display: flex;
-  margin: 15px;
-  input {
+  margin: 0 auto;
+  .name {
+    width: 100%;
     padding: 10px;
     padding-left: 20px;
     padding-right: ${(props) => props.toolboxWidth + 10}px;
-    font-size: 20px;
-    width: 100%;
     border-radius: 50px;
+  }
+  .color {
+    margin-right: 10px;
+    border-radius: 100%;
+    position: relative;
+    display: block;
+    padding: 2px;
+    border: 1px solid #e4e4e4;
+    .inner,
+    input {
+      pointer-events: none;
+    }
+    input {
+      opacity: 0;
+    }
+    .inner {
+      height: 100%;
+      border-radius: 100%;
+    }
+  }
+  input {
+    font-size: 20px;
     border: 1px solid #e4e4e4;
     box-shadow: 1px 3px 4px -3px #969696;
     color: #434343;
     &:focus-visible {
-      outline: 2px solid #e1f2ff;
+      outline: none;
     }
   }
 `;
@@ -66,6 +87,7 @@ export default function UserInput({
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
 }) {
   const [name, setName] = useState<string>("");
+  const [color, setColor] = useState<string>("#555");
   const [toolboxWidth, setToolboxWidth] = useState<number>(0);
   const [isChangedName, setIsChangedName] = useState<boolean>(false);
 
@@ -108,9 +130,11 @@ export default function UserInput({
         <IconButton
           onClick={() => handleAddActivity(false)}
           style={{ marginRight: selectedActivity ? "5px" : 0 }}
+          disabled={name.length == 0}
         >
           + New
         </IconButton>
+
         {!isChangedName && selectedActivity && (
           <IconButton onClick={() => handleAddActivity(true)}>
             + Repeat
@@ -150,7 +174,19 @@ export default function UserInput({
     <>
       {!selectedActivity && <SuggestedPop {...{ activities, name, setName }} />}
       <InputContainer toolboxWidth={toolboxWidth}>
+        <label
+          className="color"
+          style={{
+            height: toolRef.current?.offsetHeight + "px",
+            width: toolRef.current?.offsetHeight + "px",
+          }}
+        >
+          <div style={{ background: color }} className="inner">
+            <input type="color" onChange={(e) => setColor(e.target.value)} />
+          </div>
+        </label>
         <input
+          className="name"
           type="text"
           value={name}
           onChange={(e) => {

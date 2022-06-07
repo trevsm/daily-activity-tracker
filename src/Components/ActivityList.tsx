@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { formatAMPM } from "../Tools";
 
 const StyledActivityList = styled.ul`
+  position: relative;
   list-style: none;
   padding: 0;
 `;
@@ -27,9 +28,6 @@ const AItem = styled.li<ActivityItemProps>`
   .full {
     color: #838383;
     font-weight: 300;
-  }
-  .full .seconds {
-    transform: translateY(-7px);
   }
   .seconds {
     font-size: 13px;

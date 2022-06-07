@@ -6,6 +6,7 @@ html,
 body {
   margin: 0;
   font-family: system-ui;
+  height: 100%;
 }
 
 button {
@@ -13,4 +14,8 @@ button {
   background-color: unset;
   padding: unset;
   color: #6a6a6a;
+}
+
+button:disabled {
+  opacity: 0.5;
 }

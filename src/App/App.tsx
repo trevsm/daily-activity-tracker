@@ -11,6 +11,14 @@ const AppContainer = styled.div`
   padding: 20px;
 `;
 
+const ClearSelectedElement = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
 export default function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -19,6 +27,7 @@ export default function App() {
 
   return (
     <AppContainer>
+      <ClearSelectedElement onClick={() => setSelectedActivity(null)} />
       <ActivityList
         {...{ activities, selectedActivity, setSelectedActivity }}
       />
