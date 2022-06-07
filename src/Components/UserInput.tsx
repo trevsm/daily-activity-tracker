@@ -1,8 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
+import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { familyMemberCount } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
+
+const InputContainer = styled.div<{ toolboxWidth: number }>`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background-color: pink;
+
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  margin-bottom: 10px;
+  input {
+    padding: 5px;
+    padding-right: ${(props) => props.toolboxWidth}px;
+    font-size: 20px;
+    width: 100%;
+  }
+`;
+
+const ToolContainer = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+`;
 
 export default function UserInput({
   selectedActivity,
@@ -16,6 +48,7 @@ export default function UserInput({
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
 }) {
   const [name, setName] = useState<string>("");
+  const [toolboxWidth, setToolboxWidth] = useState<number>(0);
   const [isChangedName, setIsChangedName] = useState<boolean>(false);
 
   const handleAddActivity = (useSameId: boolean) => {
@@ -49,9 +82,11 @@ export default function UserInput({
     }
   };
 
+  const toolRef = useRef<HTMLDivElement>(null);
+
   const Tools = () => {
     return (
-      <div>
+      <ToolContainer ref={toolRef}>
         <button onClick={() => handleAddActivity(false)}>+ New</button>
         {!isChangedName && selectedActivity && (
           <button onClick={() => handleAddActivity(true)}>+ Same</button>
@@ -66,7 +101,7 @@ export default function UserInput({
             </button>
           </>
         )}
-      </div>
+      </ToolContainer>
     );
   };
 
@@ -81,21 +116,28 @@ export default function UserInput({
     }
   }, [selectedActivity]);
 
+  useEffect(() => {
+    if (toolRef.current.clientWidth !== toolboxWidth)
+      setToolboxWidth(toolRef.current?.clientWidth || 0);
+  });
+
   return (
-    <div>
+    <>
       {!selectedActivity && <SuggestedPop {...{ activities, name, setName }} />}
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          setIsChangedName(true);
-          handleKeyPress(e);
-        }}
-      />
-      <Tools />
-    </div>
+      <InputContainer toolboxWidth={toolboxWidth}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            setIsChangedName(true);
+            handleKeyPress(e);
+          }}
+        />
+        <Tools />
+      </InputContainer>
+    </>
   );
 }
