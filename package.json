@@ -4,7 +4,7 @@
   "description": "Mobile web-app that makes it easy to log activities (ate X @ Y o'clock, etc)",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=0.0.0.0 react-scripts start",
     "build": "react-scripts build"
   },
   "repository": {

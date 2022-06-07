@@ -8,7 +8,7 @@ import "./styles.css";
 const AppContainer = styled.div`
   max-width: 500px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 20px;
 `;
 
 export default function App() {

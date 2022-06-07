@@ -10,7 +10,6 @@ const InputContainer = styled.div<{ toolboxWidth: number }>`
   bottom: 0;
   left: 0;
   right: 0;
-
   max-width: 500px;
   margin: 0 auto;
   display: flex;
@@ -24,6 +23,10 @@ const InputContainer = styled.div<{ toolboxWidth: number }>`
     border-radius: 50px;
     border: 1px solid #e4e4e4;
     box-shadow: 1px 3px 4px -3px #969696;
+    color: #434343;
+    &:focus-visible {
+      outline: 2px solid #e1f2ff;
+    }
   }
 `;
 
@@ -110,7 +113,7 @@ export default function UserInput({
         </IconButton>
         {!isChangedName && selectedActivity && (
           <IconButton onClick={() => handleAddActivity(true)}>
-            + Again
+            + Repeat
           </IconButton>
         )}
         {isChangedName && selectedActivity && (
