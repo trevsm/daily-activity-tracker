@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const StyledActivityList = styled.ul`
   list-style: none;
-  width: fit-content;
   padding: 0;
 `;
 
@@ -13,14 +12,19 @@ interface ActivityItemProps {
     id: boolean;
   };
 }
+
 const AItem = styled.li<ActivityItemProps>`
-  padding: 5px;
+  padding: 10px;
+  font-size: 18px;
   cursor: pointer;
-  margin-bottom: 5px;
-  width: fit-content;
   background-color: ${({ selected: { family } }) =>
-    family ? "#51e28242" : "#fff"};
-  border-left: ${({ selected: { id } }) => (id ? "5px solid #51e282" : "")};
+    family ? "#c3c3c342" : "#fff"};
+  border-left: ${({ selected: { id } }) => (id ? "5px solid #6f8ca2" : "")};
+`;
+
+const Hr = styled.hr`
+  border: unset;
+  border-bottom: 1px solid #dddddd;
 `;
 
 export default function ActivityList({
@@ -33,22 +37,23 @@ export default function ActivityList({
   setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
 }) {
   const activityList = useMemo(() => {
-    return activities.map((activity) => {
-      console.log(activity, selectedActivity);
-
+    return activities.map((activity, index) => {
       return (
-        <AItem
-          selected={{
-            family: activity.familyId === selectedActivity?.familyId,
-            id: activity.id === selectedActivity?.id,
-          }}
-          key={activity.id}
-          onClick={() => {
-            setSelectedActivity(activity);
-          }}
-        >
-          {activity.name}
-        </AItem>
+        <>
+          <AItem
+            selected={{
+              family: activity.familyId === selectedActivity?.familyId,
+              id: activity.id === selectedActivity?.id,
+            }}
+            key={activity.id}
+            onClick={() => {
+              setSelectedActivity(activity);
+            }}
+          >
+            {activity.name}
+          </AItem>
+          {index !== activities.length - 1 && <Hr />}
+        </>
       );
     });
   }, [activities, selectedActivity]);

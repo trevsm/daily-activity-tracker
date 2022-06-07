@@ -11,17 +11,19 @@ const InputContainer = styled.div<{ toolboxWidth: number }>`
   left: 0;
   right: 0;
 
-  background-color: pink;
-
   max-width: 500px;
   margin: 0 auto;
   display: flex;
-  margin-bottom: 10px;
+  margin: 15px;
   input {
-    padding: 5px;
-    padding-right: ${(props) => props.toolboxWidth}px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: ${(props) => props.toolboxWidth + 10}px;
     font-size: 20px;
     width: 100%;
+    border-radius: 50px;
+    border: 1px solid #e4e4e4;
+    box-shadow: 1px 3px 4px -3px #969696;
   }
 `;
 
@@ -34,6 +36,19 @@ const ToolContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 5px;
+`;
+
+const IconButton = styled.button`
+  background-color: #ffffff;
+  border: 1px solid #e1e1e1;
+  box-shadow: 1px 1px 6px -4px black;
+  border-radius: 50px;
+  padding: 5px 10px;
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: #656565;
+  }
 `;
 
 export default function UserInput({
@@ -87,18 +102,25 @@ export default function UserInput({
   const Tools = () => {
     return (
       <ToolContainer ref={toolRef}>
-        <button onClick={() => handleAddActivity(false)}>+ New</button>
+        <IconButton
+          onClick={() => handleAddActivity(false)}
+          style={{ marginRight: selectedActivity ? "5px" : 0 }}
+        >
+          + New
+        </IconButton>
         {!isChangedName && selectedActivity && (
-          <button onClick={() => handleAddActivity(true)}>+ Same</button>
+          <IconButton onClick={() => handleAddActivity(true)}>
+            + Again
+          </IconButton>
         )}
-        {selectedActivity && (
+        {isChangedName && selectedActivity && (
           <>
-            <button onClick={handleUpdateActivity}>
+            <IconButton onClick={handleUpdateActivity}>
               Update
               {familyMemberCount(selectedActivity.familyId, activities) > 1
                 ? " All"
                 : ""}
-            </button>
+            </IconButton>
           </>
         )}
       </ToolContainer>

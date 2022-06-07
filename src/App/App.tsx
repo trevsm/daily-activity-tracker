@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import ActivityList from "../Components/ActivityList";
 import UserInput from "../Components/UserInput";
+
 import "./styles.css";
 
 const AppContainer = styled.div`

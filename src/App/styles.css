@@ -5,4 +5,12 @@
 html,
 body {
   margin: 0;
+  font-family: system-ui;
+}
+
+button {
+  border: none;
+  background-color: unset;
+  padding: unset;
+  color: #6a6a6a;
 }
