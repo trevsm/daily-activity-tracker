@@ -9,7 +9,6 @@ const StyledActivityList = styled.ul`
   position: relative;
   list-style: none;
   padding: 0;
-  padding-bottom: ${window.innerHeight / 4}px;
 `;
 
 interface ActivityItemProps {
@@ -89,13 +88,13 @@ export default function ActivityList({
   setActivities,
   selectedActivity,
   setSelectedActivity,
-  listRef,
+  setSelectedElem,
 }: {
   activities: Activity[];
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
   selectedActivity: Activity | null;
   setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
-  listRef: React.MutableRefObject<HTMLUListElement | null>;
+  setSelectedElem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>;
 }) {
   const deleteActivity = (id: string) => {
     if (window.confirm("Are you sure you want to delete this activity?")) {
@@ -156,7 +155,8 @@ export default function ActivityList({
             }}
             color={activity.color}
             key={activity.id}
-            onClick={() => {
+            onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+              setSelectedElem(e.target as HTMLLIElement);
               setSelectedActivity(activity);
             }}
           >
@@ -213,5 +213,5 @@ export default function ActivityList({
     });
   }, [activities, selectedActivity]);
 
-  return <StyledActivityList ref={listRef}>{activityList}</StyledActivityList>;
+  return <StyledActivityList>{activityList}</StyledActivityList>;
 }

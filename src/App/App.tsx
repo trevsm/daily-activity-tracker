@@ -12,10 +12,11 @@ const AppContainer = styled.div`
   max-width: 500px;
   margin: 0 auto;
   padding: 15px;
+  padding-bottom: ${window.innerHeight / 4}px;
 `;
 
 const ClearSelectedElement = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -30,16 +31,15 @@ export default function App() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null
   );
-  const userInputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const [selectedElem, setSelectedElem] = useState<HTMLLIElement | null>(null);
 
   const states = {
     activities,
     setActivities,
     selectedActivity,
     setSelectedActivity,
-    userInputRef,
-    listRef,
+    selectedElem,
+    setSelectedElem,
   };
 
   return (

@@ -80,13 +80,13 @@ export default function UserInput({
   setSelectedActivity,
   activities,
   setActivities,
-  userInputRef,
+  selectedElem,
 }: {
   selectedActivity: Activity | null;
   setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
   activities: Activity[];
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
-  userInputRef: React.RefObject<HTMLInputElement>;
+  selectedElem: HTMLLIElement | null;
 }) {
   const [name, setName] = useState<string>("");
   const initialColor = "#333333";
@@ -202,6 +202,12 @@ export default function UserInput({
             <input
               type="color"
               list="presets"
+              onClick={() => {
+                selectedElem?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }}
               onChange={(e) => {
                 setColor(e.target.value);
                 setIsChangedName(true);
@@ -223,10 +229,17 @@ export default function UserInput({
           </div>
         </label>
         <input
-          ref={userInputRef}
           className="name"
           type="text"
           value={name}
+          onFocus={() => {
+            setTimeout(() => {
+              selectedElem?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }, 100);
+          }}
           onChange={(e) => {
             setName(e.target.value);
           }}
