@@ -189,7 +189,9 @@ export default function UserInput({
 
   return (
     <>
-      {!selectedActivity && <SuggestedPop {...{ activities, name, setName }} />}
+      {!selectedActivity && (
+        <SuggestedPop {...{ activities, name, setName, setSelectedActivity }} />
+      )}
       <InputContainer toolboxWidth={toolboxWidth}>
         <label
           className="color"
