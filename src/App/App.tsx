@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useLocalStorage } from "usehooks-ts";
@@ -41,6 +41,10 @@ export default function App() {
     selectedElem,
     setSelectedElem,
   };
+
+  useEffect(() => {
+    if (!selectedActivity) setSelectedElem(null);
+  }, [selectedActivity]);
 
   return (
     <AppContainer>
