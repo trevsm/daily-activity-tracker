@@ -45,7 +45,14 @@ export function similarity(s1: string, s2: string) {
   return (longerLength - editDistance(longer, shorter)) / longerLength;
 }
 
-export function formatAMPM(dateString: string) {
+export interface Time {
+  hours: number;
+  minutes: string | number;
+  ampm: string;
+  seconds: string;
+}
+
+export function formatAMPM(dateString: string): Time {
   const date = new Date(dateString);
 
   let hours = date.getHours();
@@ -61,4 +68,14 @@ export function formatAMPM(dateString: string) {
     ampm,
     seconds: String(seconds).padStart(2, "0"),
   };
+}
+
+export function prettyDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }

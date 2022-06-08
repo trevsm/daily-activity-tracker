@@ -1,12 +1,15 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { collectionMemberCount, formatAMPM } from "../Tools";
+import { collectionMemberCount, formatAMPM, prettyDate, Time } from "../Tools";
 import { Activity } from "../Types";
+import { v4 as uuid } from "uuid";
 
 const StyledActivityList = styled.ul`
+  pointer-events: none;
   position: relative;
   list-style: none;
   padding: 0;
+  padding-bottom: ${window.innerHeight / 4}px;
 `;
 
 interface ActivityItemProps {
@@ -18,8 +21,10 @@ interface ActivityItemProps {
 }
 
 const AItem = styled.li<ActivityItemProps>`
+  pointer-events: auto;
   position: relative;
   padding: 10px;
+  margin: 10px;
   margin-bottom: 10px;
   font-size: 18px;
   cursor: pointer;
@@ -60,7 +65,6 @@ const ATools = styled.div`
 `;
 
 const DailyHeader = styled.div`
-  pointer-events: none;
   margin-bottom: 25px;
   h1 {
     font-size: 25px;
@@ -113,12 +117,13 @@ export default function ActivityList({
     }
   };
 
-  const exitCollection = (id: string, collectionId: string) => {
+  const exitCollection = (id: string) => {
     if (window.confirm("Are you sure you want to exit this collection?")) {
       setActivities(
         activities.map((activity) => {
           if (activity.id === id) {
-            return { ...activity, collectionId: "" };
+            const collectionId = uuid();
+            return { ...activity, collectionId };
           }
           return activity;
         })
@@ -128,16 +133,18 @@ export default function ActivityList({
 
   const activityList = useMemo(() => {
     return activities.map((activity, index) => {
+      const date = prettyDate(activity.time);
+      const prevDate: null | string =
+        index !== 0 ? prettyDate(activities[index - 1]?.time) : null;
+
       const time = formatAMPM(activity.time);
-      const prevTime =
-        index !== 0
-          ? formatAMPM(activities[index - 1]?.time)
-          : { minutes: 0, ampm: "" };
+      const prevTime: null | Time =
+        index !== 0 ? formatAMPM(activities[index - 1]?.time) : null;
       return (
         <>
-          {index == 0 && (
-            <DailyHeader>
-              <h1>asdf</h1>
+          {date !== prevDate && (
+            <DailyHeader style={{ marginTop: index !== 0 ? "50px" : 0 }}>
+              <h1>{date}</h1>
               <Hr />
             </DailyHeader>
           )}
@@ -163,7 +170,7 @@ export default function ActivityList({
                 alignItems: "center",
               }}
             >
-              {time.minutes !== prevTime.minutes || index == 0 ? (
+              {!prevTime || time.minutes !== prevTime.minutes ? (
                 <span className="full">
                   {time.hours}:{time.minutes}{" "}
                   <span className="seconds">{time.seconds}</span>{" "}
@@ -191,7 +198,7 @@ export default function ActivityList({
                     </button>
                     <button
                       onClick={() => {
-                        exitCollection(activity.id, activity.collectionId);
+                        exitCollection(activity.id);
                       }}
                     >
                       detach
