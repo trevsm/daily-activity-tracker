@@ -46,8 +46,9 @@ const ATools = styled.div`
   right: 5px;
   top: 5px;
   bottom: 5px;
+  display: flex;
   button {
-    font-size: 17px;
+    font-size: 15px;
     background-color: white;
     border-radius: 5px;
     height: 100%;
@@ -58,9 +59,25 @@ const ATools = styled.div`
   }
 `;
 
+const DailyHeader = styled.div`
+  pointer-events: none;
+  margin-bottom: 25px;
+  h1 {
+    font-size: 25px;
+    font-weight: 300;
+  }
+`;
+
 const Hr = styled.hr`
   border: unset;
   border-bottom: 1px solid #f3f3f3;
+`;
+
+const Vr = styled.div`
+  display: inline-block;
+  height: 100%;
+  margin: 0 5px;
+  border-right: 1px solid #acacac;
 `;
 
 export default function ActivityList({
@@ -117,55 +134,74 @@ export default function ActivityList({
           ? formatAMPM(activities[index - 1]?.time)
           : { minutes: 0, ampm: "" };
       return (
-        <AItem
-          selected={{
-            collection:
-              activity.collectionId === selectedActivity?.collectionId,
-            id: activity.id === selectedActivity?.id,
-          }}
-          color={activity.color}
-          key={activity.id}
-          onClick={() => {
-            setSelectedActivity(activity);
-          }}
-        >
-          <div style={{ marginRight: "10px", wordBreak: "break-word" }}>
-            {activity.name}
-          </div>
-          <div
-            style={{
-              minWidth: "fit-content",
-              display: "grid",
-              alignItems: "center",
+        <>
+          {index == 0 && (
+            <DailyHeader>
+              <h1>asdf</h1>
+              <Hr />
+            </DailyHeader>
+          )}
+          <AItem
+            selected={{
+              collection:
+                activity.collectionId === selectedActivity?.collectionId,
+              id: activity.id === selectedActivity?.id,
+            }}
+            color={activity.color}
+            key={activity.id}
+            onClick={() => {
+              setSelectedActivity(activity);
             }}
           >
-            {time.minutes !== prevTime.minutes || index == 0 ? (
-              <span className="full">
-                {time.hours}:{time.minutes}{" "}
-                <span className="seconds">{time.seconds}</span>{" "}
-              </span>
-            ) : (
-              <span className="seconds">{time.seconds}</span>
-            )}
-          </div>
-          {selectedActivity && activity.id === selectedActivity.id && (
-            <ATools>
-              <button
-                onClick={() => deleteActivity(activity.id)}
-                style={{ marginRight: "5px" }}
-              >
-                delete
-              </button>
-              {collectionMemberCount(activity.collectionId, activities) > 1 && (
-                <button
-                  onClick={() => deleteAllInCollection(activity.collectionId)}
-                >
-                  delete all
-                </button>
+            <div style={{ marginRight: "10px", wordBreak: "break-word" }}>
+              {activity.name}
+            </div>
+            <div
+              style={{
+                minWidth: "fit-content",
+                display: "grid",
+                alignItems: "center",
+              }}
+            >
+              {time.minutes !== prevTime.minutes || index == 0 ? (
+                <span className="full">
+                  {time.hours}:{time.minutes}{" "}
+                  <span className="seconds">{time.seconds}</span>{" "}
+                </span>
+              ) : (
+                <span className="seconds">{time.seconds}</span>
               )}
-            </ATools>
-          )}
-        </AItem>
+            </div>
+            {selectedActivity && activity.id === selectedActivity.id && (
+              <ATools>
+                <button onClick={() => deleteActivity(activity.id)}>
+                  delete
+                </button>
+                {collectionMemberCount(activity.collectionId, activities) >
+                  1 && (
+                  <>
+                    <Vr />
+                    <button
+                      style={{ marginRight: "5px" }}
+                      onClick={() =>
+                        deleteAllInCollection(activity.collectionId)
+                      }
+                    >
+                      delete all
+                    </button>
+                    <button
+                      onClick={() => {
+                        exitCollection(activity.id, activity.collectionId);
+                      }}
+                    >
+                      detach
+                    </button>
+                  </>
+                )}
+              </ATools>
+            )}
+          </AItem>
+        </>
       );
     });
   }, [activities, selectedActivity]);

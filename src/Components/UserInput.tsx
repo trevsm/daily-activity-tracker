@@ -208,16 +208,17 @@ export default function UserInput({
               }}
             />
             <datalist id="presets">
-              <option value="#333333">Grey</option>
-              <option value="#8676ff">Blue</option>
-              <option value="#c876ff">Purple</option>
-              <option value="#ff76a4">Red-Purple</option>
+              <option value="#9e9e9e">Light-Grey</option>
+              {/* <option value="#333333">Dark-Grey</option> */}
+              {/* <option value="#5b6bff">Blue</option> */}
+              {/* <option value="#c876ff">Purple</option> */}
+              {/* <option value="#ff76a4">Red-Purple</option> */}
               <option value="#ff755d">Red</option>
-              <option value="#ffaf5f">Orange</option>
-              <option value="#fffa5d">Yellow</option>
-              <option value="#c4ff5d">Yellow-Green</option>
+              {/* <option value="#ffaf5f">Orange</option> */}
+              {/* <option value="#fffa5d">Yellow</option> */}
+              {/* <option value="#c4ff5d">Yellow-Green</option> */}
               <option value="#5dff83">Green</option>
-              <option value="#5dffd4">Green-Blue</option>
+              {/* <option value="#5dffd4">Green-Blue</option> */}
             </datalist>
           </div>
         </label>
