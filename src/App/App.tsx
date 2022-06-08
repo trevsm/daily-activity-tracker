@@ -1,14 +1,17 @@
+import { useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useLocalStorage } from "usehooks-ts";
 import ActivityList from "../Components/ActivityList";
 import UserInput from "../Components/UserInput";
+import { Activity } from "../Types";
 
 import "./styles.css";
 
 const AppContainer = styled.div`
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px;
 `;
 
 const ClearSelectedElement = styled.div`
@@ -20,25 +23,30 @@ const ClearSelectedElement = styled.div`
 `;
 
 export default function App() {
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useLocalStorage<Activity[]>(
+    "activity-store",
+    []
+  );
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null
   );
+  const userInputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const states = {
+    activities,
+    setActivities,
+    selectedActivity,
+    setSelectedActivity,
+    userInputRef,
+    listRef,
+  };
 
   return (
     <AppContainer>
       <ClearSelectedElement onClick={() => setSelectedActivity(null)} />
-      <ActivityList
-        {...{ activities, selectedActivity, setSelectedActivity }}
-      />
-      <UserInput
-        {...{
-          activities,
-          setActivities,
-          selectedActivity,
-          setSelectedActivity,
-        }}
-      />
+      <ActivityList {...states} />
+      <UserInput {...states} />
     </AppContainer>
   );
 }

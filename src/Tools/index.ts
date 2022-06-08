@@ -1,8 +1,10 @@
-export function familyMemberCount(
-  familyId: string,
+import { Activity } from "../Types";
+
+export function collectionMemberCount(
+  collectionId: string,
   activities: Activity[]
 ): number {
-  return activities.filter((a) => a.familyId === familyId).length;
+  return activities.filter((a) => a.collectionId === collectionId).length;
 }
 
 export function editDistance(s1: string, s2: string) {
@@ -43,13 +45,20 @@ export function similarity(s1: string, s2: string) {
   return (longerLength - editDistance(longer, shorter)) / longerLength;
 }
 
-export function formatAMPM(date: any) {
+export function formatAMPM(dateString: string) {
+  const date = new Date(dateString);
+
   let hours = date.getHours();
-  let minutes = date.getMinutes();
+  const minutes = date.getMinutes();
   const seconds = date.getSeconds();
   const ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  return { hours, minutes, ampm, seconds: String(seconds).padStart(2, "0") };
+  const nextMinutes = minutes < 10 ? "0" + minutes : minutes;
+  return {
+    hours,
+    minutes: nextMinutes,
+    ampm,
+    seconds: String(seconds).padStart(2, "0"),
+  };
 }

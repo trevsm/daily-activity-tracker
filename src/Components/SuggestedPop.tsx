@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useRef } from "react";
 import { similarity } from "../Tools";
+import { Activity } from "../Types";
 
 export function SuggestedPop({
   activities,

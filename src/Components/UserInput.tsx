@@ -2,8 +2,9 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
-import { familyMemberCount } from "../Tools";
+import { collectionMemberCount } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
+import { Activity } from "../Types";
 
 const pad = "15px";
 const InputContainer = styled.div<{ toolboxWidth: number }>`
@@ -26,8 +27,9 @@ const InputContainer = styled.div<{ toolboxWidth: number }>`
     border-radius: 100%;
     position: relative;
     display: block;
-    padding: 2px;
+    padding: 3px;
     border: 1px solid #e4e4e4;
+    background-color: white;
     .inner,
     input {
       pointer-events: none;
@@ -43,7 +45,6 @@ const InputContainer = styled.div<{ toolboxWidth: number }>`
   input {
     font-size: 20px;
     border: 1px solid #e4e4e4;
-    box-shadow: 1px 3px 4px -3px #969696;
     color: #434343;
     &:focus-visible {
       outline: none;
@@ -65,7 +66,6 @@ const ToolContainer = styled.div`
 const IconButton = styled.button`
   background-color: #ffffff;
   border: 1px solid #e1e1e1;
-  box-shadow: 1px 1px 6px -4px black;
   border-radius: 50px;
   padding: 5px 10px;
   svg {
@@ -80,45 +80,53 @@ export default function UserInput({
   setSelectedActivity,
   activities,
   setActivities,
+  userInputRef,
 }: {
   selectedActivity: Activity | null;
   setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
   activities: Activity[];
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
+  userInputRef: React.RefObject<HTMLInputElement>;
 }) {
   const [name, setName] = useState<string>("");
-  const [color, setColor] = useState<string>("#555");
+  const initialColor = "#333333";
+  const [color, setColor] = useState<string>(initialColor);
   const [toolboxWidth, setToolboxWidth] = useState<number>(0);
   const [isChangedName, setIsChangedName] = useState<boolean>(false);
+
+  const resetState = () => {
+    setSelectedActivity(null);
+    setName("");
+    setColor(initialColor);
+  };
 
   const handleAddActivity = (useSameId: boolean) => {
     if (name.length === 0) return;
     const id = uuid();
 
-    let familyId = uuid();
+    let collectionId = uuid();
     if (selectedActivity && useSameId) {
-      familyId = selectedActivity.familyId;
+      collectionId = selectedActivity.collectionId;
     }
 
     setActivities((prev) => [
       ...prev,
-      { id, familyId, name, time: new Date() },
+      { id, collectionId, name, time: new Date().toString(), color },
     ]);
-    setSelectedActivity(null);
-    setName("");
+
+    setTimeout(() => window.scrollBy(0, document.body.scrollHeight));
+    resetState();
   };
 
   const handleUpdateActivity = () => {
     if (selectedActivity) {
       setActivities((prev) =>
         prev.map((activity) =>
-          activity.familyId === selectedActivity.familyId
-            ? { ...activity, name: name }
+          activity.collectionId === selectedActivity.collectionId
+            ? { ...activity, name: name, color }
             : activity
         )
       );
-      setSelectedActivity(null);
-      setName("");
     }
   };
 
@@ -137,14 +145,20 @@ export default function UserInput({
 
         {!isChangedName && selectedActivity && (
           <IconButton onClick={() => handleAddActivity(true)}>
-            + Repeat
+            + Again
           </IconButton>
         )}
         {isChangedName && selectedActivity && (
           <>
-            <IconButton onClick={handleUpdateActivity}>
+            <IconButton
+              onClick={handleUpdateActivity}
+              disabled={name.length == 0}
+            >
               Update
-              {familyMemberCount(selectedActivity.familyId, activities) > 1
+              {collectionMemberCount(
+                selectedActivity.collectionId,
+                activities
+              ) > 1
                 ? " All"
                 : ""}
             </IconButton>
@@ -154,15 +168,18 @@ export default function UserInput({
     );
   };
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter" && !selectedActivity) handleAddActivity(false);
   };
 
   useEffect(() => {
     if (selectedActivity) {
       setName(selectedActivity.name);
+      setColor(selectedActivity.color);
       setIsChangedName(false);
+      return;
     }
+    resetState();
   }, [selectedActivity]);
 
   useEffect(() => {
@@ -182,10 +199,30 @@ export default function UserInput({
           }}
         >
           <div style={{ background: color }} className="inner">
-            <input type="color" onChange={(e) => setColor(e.target.value)} />
+            <input
+              type="color"
+              list="presets"
+              onChange={(e) => {
+                setColor(e.target.value);
+                setIsChangedName(true);
+              }}
+            />
+            <datalist id="presets">
+              <option value="#333333">Grey</option>
+              <option value="#8676ff">Blue</option>
+              <option value="#c876ff">Purple</option>
+              <option value="#ff76a4">Red-Purple</option>
+              <option value="#ff755d">Red</option>
+              <option value="#ffaf5f">Orange</option>
+              <option value="#fffa5d">Yellow</option>
+              <option value="#c4ff5d">Yellow-Green</option>
+              <option value="#5dff83">Green</option>
+              <option value="#5dffd4">Green-Blue</option>
+            </datalist>
           </div>
         </label>
         <input
+          ref={userInputRef}
           className="name"
           type="text"
           value={name}
