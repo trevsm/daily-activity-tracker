@@ -89,7 +89,7 @@ export default function UserInput({
   selectedElem: HTMLLIElement | null;
 }) {
   const [name, setName] = useState<string>("");
-  const initialColor = "#333333";
+  const initialColor = "#9e9e9e";
   const [color, setColor] = useState<string>(initialColor);
   const [toolboxWidth, setToolboxWidth] = useState<number>(0);
   const [isChangedName, setIsChangedName] = useState<boolean>(false);
