@@ -57,12 +57,15 @@ export function SuggestedPop({
     return activities.map((activity) => {
       if (
         name.length !== 0 &&
-        activity.name !== name &&
+        activity.name.toLocaleLowerCase() !== name.toLocaleLowerCase() &&
         !usedActivities.current.some(
           ({ collectionId }) => collectionId == activity.collectionId
         ) &&
-        (activity.name.includes(name) || similarity(activity.name, name)) >=
-          0.85
+        (activity.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()) ||
+          similarity(
+            activity.name.toLocaleLowerCase(),
+            name.toLocaleLowerCase()
+          )) >= 0.85
       ) {
         usedActivities.current = [...usedActivities.current, activity];
         return (
