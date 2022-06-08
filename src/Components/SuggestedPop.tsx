@@ -44,12 +44,10 @@ const SuggestedItem = styled.div<{ color: string }>`
 export function SuggestedPop({
   activities,
   name,
-  setName,
   setSelectedActivity,
 }: {
   activities: Activity[];
   name: string;
-  setName: (name: string) => void;
   setSelectedActivity: React.Dispatch<React.SetStateAction<Activity>>;
 }) {
   const usedActivities = useRef<Activity[]>([]);
