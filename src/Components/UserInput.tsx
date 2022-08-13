@@ -111,7 +111,7 @@ export default function UserInput({
 
     setActivities((prev) => [
       ...prev,
-      { id, collectionId, name, time: new Date().toString(), color },
+      { id, collectionId, name, time: new Date(), color },
     ]);
 
     setTimeout(() => window.scrollBy(0, document.body.scrollHeight));

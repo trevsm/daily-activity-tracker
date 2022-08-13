@@ -52,7 +52,7 @@ export interface Time {
   seconds: string;
 }
 
-export function formatAMPM(dateString: string): Time {
+export function formatAMPM(dateString: Date): Time {
   const date = new Date(dateString);
 
   let hours = date.getHours();
@@ -70,7 +70,7 @@ export function formatAMPM(dateString: string): Time {
   };
 }
 
-export function prettyDate(dateString: string) {
+export function prettyDate(dateString: Date) {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-us", {
     weekday: "long",
@@ -79,3 +79,12 @@ export function prettyDate(dateString: string) {
     day: "numeric",
   });
 }
+
+export const sortByTime = (a: Activity, b: Activity) => {
+  const aDate = new Date(a.time);
+  const bDate = new Date(b.time);
+  if (aDate.getTime() === bDate.getTime()) {
+    return 0;
+  }
+  return aDate.getTime() < bDate.getTime() ? -1 : 1;
+};
