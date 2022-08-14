@@ -48,7 +48,7 @@ export const useActivities = create(
       },
     }),
     {
-      name: "activity-store",
+      name: "activity-store-2",
     }
   )
 );
