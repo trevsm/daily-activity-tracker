@@ -34,15 +34,6 @@ export default function App() {
   //temp fix for transition of activities
   useEffect(() => {
     if (first.current && !isFixed) {
-      setOld([
-        {
-          id: "1",
-          collectionId: "1",
-          name: "test",
-          color: "pink",
-          time: new Date(),
-        },
-      ]);
       setActivities(() => old);
       setIsFixed(true);
     }
