@@ -1,10 +1,7 @@
-import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useLocalStorage } from "usehooks-ts";
 import ActivityList from "../Components/ActivityList";
 import UserInput from "../Components/UserInput";
 import { useActivities } from "../stores/useActivities";
-import { Activity } from "../Types";
 
 import "./styles.css";
 
@@ -24,21 +21,7 @@ const ClearSelectedElement = styled.div`
 `;
 
 export default function App() {
-  const [isFixed, setIsFixed] = useLocalStorage("isFixed", false);
-  const [old] = useLocalStorage<Activity[]>("activity-store", []);
-
-  const { setSelectedActivity, setActivities } = useActivities();
-
-  const first = useRef(true);
-
-  //temp fix for transition of activities
-  useEffect(() => {
-    if (first.current && !isFixed) {
-      setActivities(() => old);
-      setIsFixed(true);
-    }
-    first.current = false;
-  }, []);
+  const { setSelectedActivity } = useActivities();
 
   return (
     <AppContainer>
