@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import styled from "styled-components";
+import { useActivities } from "../stores/useActivities";
 import { formatAMPM, prettyDate, sortByTime, Time } from "../Tools";
-import { Activity } from "../Types";
 import ItemTools from "./ItemTools";
 
 const StyledActivityList = styled.ul`
@@ -67,19 +67,9 @@ const Hr = styled.hr`
   border-bottom: 1px solid #f3f3f3;
 `;
 
-export default function ActivityList({
-  activities,
-  setActivities,
-  selectedActivity,
-  setSelectedActivity,
-  setSelectedElem,
-}: {
-  activities: Activity[];
-  setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
-  selectedActivity: Activity | null;
-  setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
-  setSelectedElem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>;
-}) {
+export default function ActivityList() {
+  const { activities, selectedActivity, setSelectedActivity } = useActivities();
+
   const activityList = useMemo(() => {
     return activities.sort(sortByTime).map((activity, index) => {
       const date = prettyDate(activity.time);
@@ -108,8 +98,7 @@ export default function ActivityList({
             }}
             color={activity.color}
             key={activity.id}
-            onClick={(e: React.MouseEvent<HTMLLIElement>) => {
-              setSelectedElem(e.target as HTMLLIElement);
+            onClick={() => {
               setSelectedActivity(activity);
             }}
           >
@@ -125,12 +114,7 @@ export default function ActivityList({
               )}
             </div>
             {selectedActivity && activity.id === selectedActivity.id && (
-              <ItemTools
-                activity={selectedActivity}
-                activities={activities}
-                setActivities={setActivities}
-                setSelectedActivity={setSelectedActivity}
-              />
+              <ItemTools />
             )}
           </AItem>
         </div>

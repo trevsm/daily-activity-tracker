@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { collectionMemberCount } from "../Tools";
-import { Activity } from "../Types";
-import { v4 as uuid } from "uuid";
+import { useActivities } from "../stores/useActivities";
 
 const ATools = styled.div`
   position: absolute;
@@ -28,23 +27,18 @@ const Vr = styled.div`
   border-right: 1px solid #acacac;
 `;
 
-interface ItemToolsProps {
-  activity: Activity;
-  activities: Activity[];
-  setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
-  setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
-}
+export default function ItemTools() {
+  const {
+    selectedActivity,
+    activities,
+    deleteActivity: da,
+    deleteAllInCollection: dac,
+    exitCollection: ec,
+  } = useActivities();
 
-export default function ItemTools({
-  activity,
-  activities,
-  setActivities,
-  setSelectedActivity,
-}: ItemToolsProps) {
   const deleteActivity = (id: string) => {
     if (window.confirm("Are you sure you want to delete this activity?")) {
-      setActivities(activities.filter((activity) => activity.id !== id));
-      setTimeout(() => setSelectedActivity(null));
+      da(id);
     }
   };
 
@@ -54,42 +48,33 @@ export default function ItemTools({
         "Are you sure you want to delete all activities in this collection?"
       )
     ) {
-      setActivities(
-        activities.filter((activity) => activity.collectionId !== collectionId)
-      );
-      setTimeout(() => setSelectedActivity(null));
+      dac(collectionId);
     }
   };
 
   const exitCollection = (id: string) => {
     if (window.confirm("Are you sure you want to exit this collection?")) {
-      setActivities(
-        activities.map((activity) => {
-          if (activity.id === id) {
-            const collectionId = uuid();
-            return { ...activity, collectionId };
-          }
-          return activity;
-        })
-      );
+      ec(id);
     }
   };
 
   return (
     <ATools>
-      <button onClick={() => deleteActivity(activity.id)}>delete</button>
-      {collectionMemberCount(activity.collectionId, activities) > 1 && (
+      <button onClick={() => deleteActivity(selectedActivity.id)}>
+        delete
+      </button>
+      {collectionMemberCount(selectedActivity.collectionId, activities) > 1 && (
         <>
           <Vr />
           <button
             style={{ marginRight: "5px" }}
-            onClick={() => deleteAllInCollection(activity.collectionId)}
+            onClick={() => deleteAllInCollection(selectedActivity.collectionId)}
           >
             delete all
           </button>
           <button
             onClick={() => {
-              exitCollection(activity.id);
+              exitCollection(selectedActivity.id);
             }}
           >
             detach

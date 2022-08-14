@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { collectionMemberCount } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
-import { Activity } from "../Types";
+import { useActivities } from "../stores/useActivities";
+import styled from "styled-components";
 
 const pad = "15px";
 const InputContainer = styled.div<{ toolboxWidth: number }>`
@@ -75,24 +75,14 @@ const IconButton = styled.button`
   }
 `;
 
-export default function UserInput({
-  selectedActivity,
-  setSelectedActivity,
-  activities,
-  setActivities,
-  selectedElem,
-}: {
-  selectedActivity: Activity | null;
-  setSelectedActivity: React.Dispatch<React.SetStateAction<Activity | null>>;
-  activities: Activity[];
-  setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
-  selectedElem: HTMLLIElement | null;
-}) {
+export default function UserInput() {
   const [name, setName] = useState<string>("");
   const initialColor = "#9e9e9e";
   const [color, setColor] = useState<string>(initialColor);
   const [toolboxWidth, setToolboxWidth] = useState<number>(0);
   const [isChangedName, setIsChangedName] = useState<boolean>(false);
+  const { setSelectedActivity, selectedActivity, setActivities, activities } =
+    useActivities();
 
   const resetState = () => {
     setSelectedActivity(null);
@@ -204,12 +194,6 @@ export default function UserInput({
             <input
               type="color"
               list="presets"
-              onClick={() => {
-                selectedElem?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              }}
               onChange={(e) => {
                 setColor(e.target.value);
                 setIsChangedName(true);
@@ -234,22 +218,6 @@ export default function UserInput({
           className="name"
           type="text"
           value={name}
-          onFocus={() => {
-            setTimeout(() => {
-              if (selectedElem)
-                selectedElem?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              else {
-                const lastElem = document.querySelectorAll("ul li");
-                lastElem[lastElem.length - 1].scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-              }
-            }, 100);
-          }}
           onChange={(e) => {
             setName(e.target.value);
           }}
