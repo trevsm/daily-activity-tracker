@@ -25,7 +25,7 @@ const ClearSelectedElement = styled.div`
 
 export default function App() {
   const [isFixed, setIsFixed] = useLocalStorage("isFixed", false);
-  const [old, setOld] = useLocalStorage<Activity[]>("activity-store", []);
+  const [old] = useLocalStorage<Activity[]>("activity-store", []);
 
   const { setSelectedActivity, setActivities } = useActivities();
 
