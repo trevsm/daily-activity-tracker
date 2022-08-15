@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import { collectionMemberCount } from "../Tools";
+import { collectionMemberCount, scrollBottom } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
 import { useActivities } from "../stores/useActivities";
 import styled from "styled-components";
@@ -182,7 +182,12 @@ export default function UserInput() {
       {!selectedActivity && (
         <SuggestedPop {...{ activities, name, setName, setSelectedActivity }} />
       )}
-      <InputContainer toolboxWidth={toolboxWidth}>
+      <InputContainer
+        toolboxWidth={toolboxWidth}
+        onClick={() => {
+          if (!selectedActivity) scrollBottom();
+        }}
+      >
         <label
           className="color"
           style={{

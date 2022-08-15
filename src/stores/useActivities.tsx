@@ -11,6 +11,7 @@ interface ActivitiesState {
   deleteActivity: (id: string) => void;
   deleteAllInCollection: (collectionId: string) => void;
   exitCollection: (id: string) => void;
+  changeTime: (id: string, time: Date) => void;
 }
 
 export const useActivities = create(
@@ -41,6 +42,15 @@ export const useActivities = create(
           if (activity.id === id) {
             const collectionId = uuid();
             return { ...activity, collectionId };
+          }
+          return activity;
+        });
+        set({ activities });
+      },
+      changeTime: (id, time) => {
+        const activities = get().activities.map((activity) => {
+          if (activity.id === id) {
+            return { ...activity, time };
           }
           return activity;
         });
