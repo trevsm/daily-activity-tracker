@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import styled from "styled-components";
+import { classPrefix } from "../static";
 import { useActivities } from "../stores/useActivities";
 import { formatAMPM, prettyDate, sortByTime, Time } from "../Tools";
 import ItemTools from "./ItemTools";
@@ -101,6 +102,7 @@ export default function ActivityList() {
             onClick={() => {
               setSelectedActivity(activity);
             }}
+            className={classPrefix + activity.collectionId}
           >
             <div className="activityName">{activity.name}</div>
             <div className="fullTime">

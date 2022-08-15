@@ -1,10 +1,16 @@
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import { collectionMemberCount, scrollBottom } from "../Tools";
+import {
+  collectionMemberCount,
+  scrollBottom,
+  scrollIntoView,
+  scrollToCollectionClass,
+} from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
 import { useActivities } from "../stores/useActivities";
 import styled from "styled-components";
+import { classPrefix } from "../static";
 
 const pad = "15px";
 const InputContainer = styled.div<{ toolboxWidth: number }>`
@@ -186,6 +192,10 @@ export default function UserInput() {
         toolboxWidth={toolboxWidth}
         onClick={() => {
           if (!selectedActivity) scrollBottom();
+          else
+            scrollToCollectionClass(
+              classPrefix + selectedActivity.collectionId
+            );
         }}
       >
         <label

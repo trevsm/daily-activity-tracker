@@ -94,7 +94,12 @@ export const scrollBottom = () => {
   scrollIntoView(listElements[listElements.length - 1]);
 };
 
-export const scrollIntoView = (element: HTMLElement) => {
+export const scrollToCollectionClass = (collectionId: string) => {
+  const listElements = document.querySelectorAll(`.${collectionId}`);
+  scrollIntoView(listElements[listElements.length - 1]);
+};
+
+export const scrollIntoView = (element: HTMLElement | Element) => {
   setTimeout(() => {
     element.scrollIntoView();
   }, 100);
