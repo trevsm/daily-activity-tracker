@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid";
 import {
   collectionMemberCount,
   scrollBottom,
-  scrollIntoView,
   scrollToCollectionClass,
 } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
