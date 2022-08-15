@@ -88,3 +88,14 @@ export const sortByTime = (a: Activity, b: Activity) => {
   }
   return aDate.getTime() < bDate.getTime() ? -1 : 1;
 };
+
+export const scrollBottom = () => {
+  const listElements = document.querySelectorAll("li");
+  scrollIntoView(listElements[listElements.length - 1]);
+};
+
+export const scrollIntoView = (element: HTMLElement) => {
+  setTimeout(() => {
+    element.scrollIntoView();
+  }, 100);
+};

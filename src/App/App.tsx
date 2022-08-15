@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import ActivityList from "../Components/ActivityList";
 import UserInput from "../Components/UserInput";
 import { useActivities } from "../stores/useActivities";
+import { scrollBottom } from "../Tools";
 
 import "./styles.css";
 
@@ -22,6 +24,11 @@ const ClearSelectedElement = styled.div`
 
 export default function App() {
   const { setSelectedActivity } = useActivities();
+
+  useEffect(() => {
+    setSelectedActivity(null);
+    scrollBottom();
+  }, []);
 
   return (
     <AppContainer>
