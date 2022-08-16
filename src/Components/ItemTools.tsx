@@ -39,6 +39,7 @@ const ATools = styled.div`
 
 export default function ItemTools() {
   const {
+    setSelectedActivity,
     selectedActivity,
     activities,
     deleteActivity: da,
@@ -66,12 +67,20 @@ export default function ItemTools() {
   const exitCollection = () => {
     if (window.confirm("Are you sure you want to exit this collection?")) {
       ec(selectedActivity.id);
+      setTimeout(() => {
+        setSelectedActivity(null);
+      }, 10);
     }
   };
 
   const setTime = (time: Date) => {
+    if (new Date(time) > new Date()) {
+      alert("Unable to set time: time cannot be in the future.");
+      return;
+    }
     if (window.confirm("Are you sure you want to change the time?")) {
       ct(selectedActivity.id, time);
+      setSelectedActivity(null);
     }
   };
 
