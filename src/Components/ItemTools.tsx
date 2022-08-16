@@ -48,9 +48,16 @@ export default function ItemTools() {
     changeTime: ct,
   } = useActivities();
 
+  const nullActivity = () => {
+    setTimeout(() => {
+      setSelectedActivity(null);
+    }, 10);
+  };
+
   const deleteActivity = (id: string) => {
     if (window.confirm("Are you sure you want to delete this activity?")) {
       da(id);
+      nullActivity();
     }
   };
 
@@ -61,15 +68,14 @@ export default function ItemTools() {
       )
     ) {
       dac(selectedActivity.collectionId);
+      nullActivity();
     }
   };
 
   const exitCollection = () => {
     if (window.confirm("Are you sure you want to exit this collection?")) {
       ec(selectedActivity.id);
-      setTimeout(() => {
-        setSelectedActivity(null);
-      }, 10);
+      nullActivity();
     }
   };
 
