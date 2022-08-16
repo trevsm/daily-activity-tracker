@@ -1,5 +1,4 @@
 import { ArrowClockwise, CheckCircle, PlusCircle } from "react-bootstrap-icons";
-import { animated as a, useSpring } from "react-spring";
 import styled from "styled-components";
 import { Activity } from "../Types";
 
@@ -33,37 +32,22 @@ export function Tools({
 }) {
   const again = selectedActivity && selectedActivity.name == name;
   const update = selectedActivity && selectedActivity.name !== name;
-  const height = 45;
-
-  const againStyles = useSpring({
-    opacity: again ? 1 : 0,
-    height: again ? height : 0,
-    paddingTop: again ? 5 : 0,
-    paddingBottom: again ? 5 : 0,
-  });
-
-  const addStyles = useSpring({
-    opacity: name.length !== 0 ? 1 : 0.3,
-  });
-
-  const updateStyles = useSpring({
-    opacity: update ? 1 : 0,
-    height: update ? height : 0,
-    paddingTop: update ? 5 : 0,
-    paddingBottom: update ? 5 : 0,
-  });
 
   return (
     <StyledToolbox>
-      <a.button onClick={() => handleAddActivity(true)} style={againStyles}>
-        <ArrowClockwise />
-      </a.button>
-      <a.button onClick={() => handleAddActivity(false)} style={addStyles}>
+      {again && (
+        <button onClick={() => handleAddActivity(true)}>
+          <ArrowClockwise />
+        </button>
+      )}
+      <button onClick={() => handleAddActivity(false)} disabled={name === ""}>
         <PlusCircle />
-      </a.button>
-      <a.button onClick={handleUpdateActivity} style={updateStyles}>
-        <CheckCircle />
-      </a.button>
+      </button>
+      {update && (
+        <button onClick={handleUpdateActivity}>
+          <CheckCircle />
+        </button>
+      )}
     </StyledToolbox>
   );
 }
