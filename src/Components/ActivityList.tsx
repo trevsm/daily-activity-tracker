@@ -109,7 +109,10 @@ export default function ActivityList() {
               {!prevTime || time.minutes !== prevTime.minutes ? (
                 <span className="full">
                   {time.hours}:{time.minutes}{" "}
-                  <span className="seconds">{time.seconds}</span>{" "}
+                  <span className="seconds">
+                    {time.seconds}{" "}
+                    {!prevTime || time.ampm !== prevTime.ampm ? time.ampm : ""}
+                  </span>{" "}
                 </span>
               ) : (
                 <span className="seconds">{time.seconds}</span>
