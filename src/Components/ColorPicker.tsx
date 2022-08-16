@@ -6,6 +6,7 @@ interface ColorPickerProps {
 }
 
 const StyledLabel = styled.label`
+  pointer-events: all;
   width: 35px;
   height: 35px;
 

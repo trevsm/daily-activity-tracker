@@ -12,7 +12,7 @@ import { Tools } from "./Tools";
 
 const pad = "15px";
 const InputContainer = styled.div`
-  background-color: #ffffffc9;
+  pointer-events: none;
   position: fixed;
   bottom: ${pad};
   left: ${pad};
@@ -21,7 +21,6 @@ const InputContainer = styled.div`
   display: flex;
   margin: 0 auto;
   align-items: flex-end;
-  overflow: hidden;
 `;
 
 export default function UserInput() {

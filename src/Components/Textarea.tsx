@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const StyledTextarea = styled.textarea`
+  pointer-events: all;
   width: 100%;
   padding: 10px;
   padding-left: 50px;

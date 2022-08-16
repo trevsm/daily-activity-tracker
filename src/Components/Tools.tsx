@@ -5,22 +5,23 @@ import styled from "styled-components";
 import { Activity } from "../Types";
 
 const StyledToolbox = styled.div`
+  pointer-events: auto;
   width: 0;
   min-width: fit-content;
   display: flex;
   flex-direction: column;
   margin-left: 10px;
-  svg {
-    background-color: white;
-  }
   button {
+    color: #656565;
+    background-color: white;
+    border-radius: 100px;
     display: flex;
-    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
     font-size: 35px;
     opacity: 1;
-    &:disabled {
-      opacity: 0.3;
-    }
+    width: 35px;
   }
 `;
 
@@ -39,28 +40,28 @@ export function Tools({
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    setAgain(selectedActivity && selectedActivity.name == name);
+    setAgain(selectedActivity && selectedActivity.name == name && name != null);
     setUpdate(selectedActivity && selectedActivity.name !== name);
   }, [name]);
 
-  const height = 45;
+  const height = 35;
 
   const againStyles = useSpring({
     opacity: again ? 1 : 0,
     height: again ? height : 0,
-    paddingTop: again ? 5 : 0,
-    paddingBottom: again ? 5 : 0,
+    marginTop: again ? 5 : 0,
+    marginBottom: again ? 5 : 0,
   });
 
   const addStyles = useSpring({
-    opacity: name.length !== 0 ? 1 : 0.3,
+    color: name?.length !== 0 ? "#656565" : "#e0e0e0",
   });
 
   const updateStyles = useSpring({
     opacity: update ? 1 : 0,
     height: update ? height : 0,
-    paddingTop: update ? 5 : 0,
-    paddingBottom: update ? 5 : 0,
+    marginTop: update ? 5 : 0,
+    marginBottom: update ? 5 : 0,
   });
 
   return (
