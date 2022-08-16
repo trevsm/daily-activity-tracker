@@ -101,6 +101,10 @@ export const scrollToCollectionClass = (collectionId: string) => {
 
 export const scrollIntoView = (element: HTMLElement | Element) => {
   setTimeout(() => {
-    element.scrollIntoView();
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
   }, 100);
 };
