@@ -108,3 +108,14 @@ export const scrollIntoView = (element: HTMLElement | Element) => {
     });
   }, 100);
 };
+
+export const stringTime = (time: Date) => {
+  const date = new Date(time);
+
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+};

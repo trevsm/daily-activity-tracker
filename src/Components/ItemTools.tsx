@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { collectionMemberCount } from "../Tools";
+import { collectionMemberCount, stringTime } from "../Tools";
 import { useActivities } from "../stores/useActivities";
 
 const ATools = styled.div`
@@ -17,14 +17,24 @@ const ATools = styled.div`
     padding: 5px 8px;
     border: 1px solid #e1e1e1;
     cursor: pointer;
+    margin-right: 5px;
   }
-`;
-
-const Vr = styled.div`
-  display: inline-block;
-  height: 100%;
-  margin: 0 5px;
-  border-right: 1px solid #acacac;
+  .time {
+    position: relative;
+    pointer-events: none;
+    user-select: none;
+    input {
+      pointer-events: all;
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      max-width: 23px;
+      transform: scaleX(2) translateX(30%);
+    }
+  }
 `;
 
 export default function ItemTools() {
@@ -34,6 +44,7 @@ export default function ItemTools() {
     deleteActivity: da,
     deleteAllInCollection: dac,
     exitCollection: ec,
+    changeTime: ct,
   } = useActivities();
 
   const deleteActivity = (id: string) => {
@@ -42,19 +53,25 @@ export default function ItemTools() {
     }
   };
 
-  const deleteAllInCollection = (collectionId: string) => {
+  const deleteAllInCollection = () => {
     if (
       window.confirm(
         "Are you sure you want to delete all activities in this collection?"
       )
     ) {
-      dac(collectionId);
+      dac(selectedActivity.collectionId);
     }
   };
 
-  const exitCollection = (id: string) => {
+  const exitCollection = () => {
     if (window.confirm("Are you sure you want to exit this collection?")) {
-      ec(id);
+      ec(selectedActivity.id);
+    }
+  };
+
+  const setTime = (time: Date) => {
+    if (window.confirm("Are you sure you want to change the time?")) {
+      ct(selectedActivity.id, time);
     }
   };
 
@@ -65,22 +82,18 @@ export default function ItemTools() {
       </button>
       {collectionMemberCount(selectedActivity.collectionId, activities) > 1 && (
         <>
-          <Vr />
-          <button
-            style={{ marginRight: "5px" }}
-            onClick={() => deleteAllInCollection(selectedActivity.collectionId)}
-          >
-            delete all
-          </button>
-          <button
-            onClick={() => {
-              exitCollection(selectedActivity.id);
-            }}
-          >
-            detach
-          </button>
+          <button onClick={deleteAllInCollection}>delete all</button>
+          <button onClick={exitCollection}>detach</button>
         </>
       )}
+      <label htmlFor="time" className="time">
+        <button>time</button>
+        <input
+          type="datetime-local"
+          value={stringTime(selectedActivity.time)}
+          onChange={(e) => setTime(new Date(e.currentTarget.value))}
+        />
+      </label>
     </ATools>
   );
 }
