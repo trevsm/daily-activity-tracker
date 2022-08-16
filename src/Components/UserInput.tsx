@@ -27,7 +27,6 @@ export default function UserInput() {
   const [name, setName] = useState<string>("");
   const initialColor = "#9e9e9e";
   const [color, setColor] = useState<string>(initialColor);
-  const [isChangedName, setIsChangedName] = useState<boolean>(false);
   const { setSelectedActivity, selectedActivity, setActivities, activities } =
     useActivities();
 
@@ -75,7 +74,6 @@ export default function UserInput() {
     if (selectedActivity) {
       setName(selectedActivity.name);
       setColor(selectedActivity.color);
-      setIsChangedName(false);
       return;
     }
     resetState();
@@ -102,7 +100,6 @@ export default function UserInput() {
             setName(e.target.value);
           }}
           onKeyDown={(e) => {
-            setIsChangedName(true);
             handleKeyPress(e);
           }}
         />

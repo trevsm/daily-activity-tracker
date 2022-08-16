@@ -19,7 +19,7 @@ const StyledTextarea = styled.textarea`
 interface TextareaProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export function Textarea({ value, onChange, ...props }: TextareaProps) {

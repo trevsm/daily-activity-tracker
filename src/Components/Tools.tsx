@@ -1,9 +1,4 @@
-import {
-  ArrowClockwise,
-  CheckCircle,
-  PlusCircle,
-  PlusCircleDotted,
-} from "react-bootstrap-icons";
+import { ArrowClockwise, CheckCircle, PlusCircle } from "react-bootstrap-icons";
 import { animated as a, useSpring } from "react-spring";
 import styled from "styled-components";
 import { Activity } from "../Types";
