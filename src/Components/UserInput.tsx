@@ -12,6 +12,7 @@ import { Tools } from "./Tools";
 
 const pad = "15px";
 const InputContainer = styled.div`
+  background-color: #ffffffc9;
   position: fixed;
   bottom: ${pad};
   left: ${pad};
