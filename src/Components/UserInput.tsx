@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import { scrollBottom, scrollToCollectionClass } from "../Tools";
 import { SuggestedPop } from "./SuggestedPop";
 import { useActivities } from "../stores/useActivities";
 import styled from "styled-components";
-import { classPrefix } from "../static";
 import { Textarea } from "./Textarea";
 import { ColorPicker } from "./ColorPicker";
 import { Tools } from "./Tools";
@@ -50,7 +48,6 @@ export default function UserInput() {
       { id, collectionId, name, time: new Date(), color },
     ]);
 
-    setTimeout(() => window.scrollBy(0, document.body.scrollHeight));
     resetState();
   };
 
@@ -84,15 +81,7 @@ export default function UserInput() {
       {!selectedActivity && (
         <SuggestedPop {...{ activities, name, setName, setSelectedActivity }} />
       )}
-      <InputContainer
-        onClick={() => {
-          if (!selectedActivity) scrollBottom();
-          else
-            scrollToCollectionClass(
-              classPrefix + selectedActivity.collectionId
-            );
-        }}
-      >
+      <InputContainer>
         <ColorPicker value={color} onChange={setColor} />
         <Textarea
           value={name}
