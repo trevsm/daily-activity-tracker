@@ -30,8 +30,10 @@
   },
   "dependencies": {
     "react": "^18.1.0",
+    "react-bootstrap-icons": "^1.8.4",
     "react-dom": "^18.1.0",
     "react-scripts": "^5.0.1",
+    "react-spring": "^9.5.2",
     "styled-components": "^5.3.5",
     "ts-hooks": "^0.1.0-rc8",
     "usehooks-ts": "^2.6.0",
