@@ -14,6 +14,9 @@ const StyledToolbox = styled.div`
     padding: 5px;
     font-size: 35px;
     opacity: 1;
+    &:disabled {
+      opacity: 0.3;
+    }
   }
 `;
 
@@ -39,6 +42,10 @@ export function Tools({
     paddingBottom: again ? 5 : 0,
   });
 
+  const addStyles = useSpring({
+    opacity: name.length !== 0 ? 1 : 0.3,
+  });
+
   const updateStyles = useSpring({
     opacity: update ? 1 : 0,
     height: update ? height : 0,
@@ -51,10 +58,7 @@ export function Tools({
       <a.button onClick={() => handleAddActivity(true)} style={againStyles}>
         <ArrowClockwise />
       </a.button>
-      <a.button
-        disabled={name.length === 0}
-        onClick={() => handleAddActivity(false)}
-      >
+      <a.button onClick={() => handleAddActivity(false)} style={addStyles}>
         <PlusCircle />
       </a.button>
       <a.button onClick={handleUpdateActivity} style={updateStyles}>
